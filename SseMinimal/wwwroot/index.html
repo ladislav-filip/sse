@@ -1,0 +1,40 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>SSE Example</h1>
+
+
+        <div id="dataview">
+
+        </div>
+
+
+        <script type="text/javascript">
+            const source = new EventSource('/sse');
+            const dtView = document.getElementById("dataview");
+
+            source.onmessage = function(event) {
+                console.log(event);
+                
+                dtView.innerHTML += "<br/>" + event.data;
+
+                if (event.data == "exit") {
+                    source.close();
+                }
+            }
+
+            source.onopen = function(event) {
+                dtView.innerHTML += "<br/>OPEN";
+                console.log(event);
+            }
+
+            source.onerror = function(err) {
+                dtView.innerHTML += "<br/>ERROR";
+                console.log(err);
+            }
+        </script>
+
+    </body>
+</html>
